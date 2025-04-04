@@ -27,7 +27,7 @@
 	</head>
 	<body>
 		<div class="container">
-		<h1>Meshiah Complex</h1>
+		<h1>Magical Fractals!</h1>
 		<div style="text-align: center;">Names: Jay Chou, Abigail Brooks-Ramirez, Rahul Vijay, Sophie Xie</div>
 		
 		<br>
@@ -37,47 +37,75 @@
 		<br>
 
 		<h2>Summary</h2>
-		The goal of our project is to create an all-in-one solution that helps users create 3D meshes using common technology available to most people. Our project makes use of the iPhone LiDAR to generate a point cloud, and convert the point cloud to a mesh using the Ball-Pivoting algorithm. The final output will be a 3D mesh file that the user can open up in any 3D software and postprocess for printing, etc.
+		Our goal is to make beautiful fractals using raymarching and distance estimators. We will use shading techniques like Blinn-Phong and hopefully re-create images like the "anomaly" and "hexcore" imagery from Arcane, which we believe was implemented using some form of fractals. We will create a front end that allows users to play around with parameters and generate these fractals themselves.
 
 		<h2>Problem Description</h2>
-		Here you should provide the context for your idea. Describe the problem that you are trying to solve, why it is important, where it is challenging. Give us a general idea on how you are going to solve it.
+		Fractals are geometric patterns that repeat themselves and form beautiful, self-similar structures at various scales. While traditional raytracing techniques require a well-defined mesh, trying to render such a complex scene with fractals would be highly inefficient due to the sheer number of primitives involved. Therefore, with raymarching, we can use distance estimators to specify the type of fractal we want to generate and efficiently trace the path of light through the scene. Instead of relying on a vast mesh of polygons, raymarching makes it possible to render intricate fractal shapes with significantly reduced computational costs, opening up possibilities for stunning, high-quality visualizations of these complex structures. Paired with shading techniques like Blinn-Phong, we could create beautiful scenes akin to Across the Spider-Verse.
 		
-		<h2>Goals and Deliverables</h2>			<h3>What We Plan to Deliver</h3>
+		<h2>Goals and Deliverables</h2>			
+			<h3>What We Plan to Deliver</h3>
 			<!--What do we need to deliver, bare min to achieve our desired grade-->
-			W!--lan to deliver a 
-
-
-
-			We plan to deliver a pipeline that uses LiDAR to create a point cloud representation of a 3D object and convert it to a mesh, using the Ball Pivoting-Algorithm for Surface Reconstruction.
+			<p>We plan to deliver a collection of three different types of fractals: iterated function systems (e.g. Apollian gasket), escape-time fractals (e.g. Mandelbot fractals), and strange attractors (e.g. Clifford attractors). These are the types of images we hope to create:</p>
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				  <tr>
+					<td style="text-align: center;">
+					  <img src="https://www.americanscientist.org/sites/americanscientist.org/files/2009127121357615-2010-01CompSciMackenzieFF.jpg" height="300px"/>
+					  <figcaption>Apollian gasket</figcaption>
+					</td>
+					<td style="text-align: center;">
+					  <img src="https://i.redd.it/believe-it-or-not-these-are-all-escape-time-fractals-v0-gh392fgpkcic1.jpg?width=2000&format=pjpg&auto=webp&s=11f3beae3fb5fcc5168dfbc56358b0f538fbf00b" height="300px"/>
+					  <figcaption>Escape-time fractals</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="https://paulbourke.net/fractals/clifford/8.jpg" height="300px"/>
+						<figcaption>Clifford attractors</figcaption>
+					  </td>
+				  </tr>
+				</table>
+			</div>
 			<!--Descibe expected output-->
+			<p>We plan to create an interactive demo with these fractals, where, from a dropdown menu of options, a user can play around and create different types of fractals themselves! (More details described in What We Hope to Deliver)</p>
 			<!--Describe how we plan to measure quality/performance-->
-			We can measure the quality of our mesh output using the Stanford 3D Scanning Repository for our testing suite. We can get point clouds using the raw data from the repository, run them through our pipeline, and then compare our generated mesh with the mesh from the repository. <!--TODO: Research to find an error function-->
+			<p>To measure the quality of our generated fractals, we plan to use several metrics.</p>
+			<ul>
+				<li><b>Fractal dimension:</b> This measures the complexity of the fractal. We can estimate the fractal dimension using the box-counting method, in which we divide the image into a grid and find how many boxes are needed to cover the fractal.</li>
+				<li><b>Self Similarity:</b> We can use SSIM (Structural Similarity Index Measure) to compare the similarity of fractals at each recursive level. This will give a measure of whether our algorithm is generating valid fractals.</li>
+				<li><b>Lyapunov Exponent:</b> Our final metric is used to quantify the chaotic behavior of our generated fractal. Specifically, it measures the sensitivity of our fractals to changes in the initial condition. This is especially useful in assessing the quality of our generated Clifford attractors and escape-time fractals.</li>
+			</ul>
 			<h3>What We Hope to Deliver</h3>
+			Aside from creating the images, we hope to deliver an interactive page where the user can specify the type of fractal and type of shading and see the fractals being created in realtime. We will have various parameters, like the number of iterations, color scheme, etc., available for users to play around with.
 			<!--Additional work we can do if we achieve our initial goal-->
-			If we get ahead of schedule, we hope to add another stage to the pipeline, in which we can project textures onto our generated mesh. <!--TODO: Finish Add detail about how we do this--></p1>
+			<p>If we get ahead of schedule, we hope to expand our fractals into 3D shapes. Most fractals are 2D, so converting to 3D requires a translation matrix or converting the fractal to 4D and then taking a 3D "slice" of the fractal. Our reach goal would be trying to recreate the "anomaly" in Arcane (below), which we believe to be a 3D version of the apollonian gasket fractal (which we plan to implement in 2D in Week 2).</p> 
+			<img src="https://preview.redd.it/what-do-you-think-inspired-the-look-of-the-arcane-v0-z8812tlpuy7e1.jpg?width=640&crop=smart&auto=webp&s=422975119ee15451ca06f386d0a3523cccefd6b9" width="500px">
+			<!--TODO: Finish Add detail about how we do this--></p1>
 		<h2>Schedule</h2>
 		<!--Week by head k  plan of what tasks we do each week-->
-  			<h3>Week 1</h3>
-			
+
+			<h3>Week 1</h3>
+			<p>We will spend the first week working on rendering our first fractal. This requires us to implement a ray marcher and our shading system and color scheme, which we will use for the remaining fractals that we generate. We have found existing implementations of raymarchers in C++ that we could use as a starting point. The first type of fractal we plan to create is an iterated function fractal, which is generated with geometric rewrite rules. We've chosen the apollonian gasket fractal, which mimics a pattern seen in soap bubbles by generating new circles with every iteration.</p>
+
 			<h3>Week 2</h3>
+			<p>The second type of fractal we plan to create is an escape-time fractal, which are systems that recurisvely iterate over a given input and outputs results that are within some given bound. A common escape-time fractal that we would probably first tackle is the Mandelbrot fractal, which is a fractal that has iteratively smaller and smaller versions of itself. Mathematically speaking, an escape-time fractal applies a formula to a complex number (the number starting from some pixel) and outputs a color depending on how quick that number "escapes" tto infinity.</p>
 			
 			<h3>Week 3</h3>
-			
+			<p>Our final fractal is the Clifford Attractor (a type of strange attractor), which are systems of equations that evolve over time (largely due to the inclusion and behavior of sine and cosine within the system). Additionally, if any of our Week 1 and 2 tasks take more time than expected, Week 3 could also be the week where we catch up on work.</p>
+
 			<h3>Week 4</h3>
+			<p>We will then create the frontend for our website, which will allow users to interact with the program by modifying parameters to create a unique fractal. We suspect we may need to implement the front end as a separate React app (or some other framework) and add end points to our C++ repository, however we plan to flesh out this idea further once we establish our C++ codebase.</p>
 
 		<h2>Resources</h2>
 		<!--What books/papers/online resources are used as references, what computing, software hardware platforms-->
-
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		<p><a href="https://cglearn.eu/pub/advanced-computer-graphics/fractal-rendering">Fractal Rendering</a></p>
+		<p><a href="https://nathansolomon1678.github.io/fractals/">Fractals simulator by Nathan Solomon</a></p>
+		<p><a href="https://syntopia.github.io/StrangeAttractors/">Strange attractors</a></p>
+		<p><a href="https://github.com/nathansolomon1678/Clifford">Clifford attractors</a></p>
+		<p><a href="https://iquilezles.org/articles/distfunctions/">Distance Functions</a></p>
+		<p><a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/?fbclid=IwZXh0bgNhZW0CMTEAAR4VlmI5cwK8BAGgYvTMxUJDK0c_WslnQdkq77KLPzorILQnLn6pWK_fuYrWsg_aem_g1kQ_Flag2MBVNhOu8nW0w">Distance Estimated 3D Fractals</a></p>
+		<p><a href="https://www.youtube.com/watch?app=desktop&v=svLzmFuSBhk&t=0s&ab_channel=CodeParade">How to Make 3D Fractals</a></p>
+		<h3>Base Repository</h3>
+		<p>We will be starting from the following base respository that has a simple raymarcher and Blinn-Phong shading implemented in C++. We plan to run this project on our local machines.</p>
+		<p><a href="https://github.com/Balajanovski/simple-raymarcher">simple-raymarcher</a></p>
 		</div>
 	</body>
 </html>
