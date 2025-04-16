@@ -1,0 +1,115 @@
+<html>
+	<head>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+		<style>
+			h1 {
+				text-align: center;
+			}
+
+			.container {
+				margin: 0 auto;
+				padding: 60px 20%;
+			}
+
+			figure {
+				text-align: center;
+			}
+
+			img {
+				display: inline-block;
+			}
+
+			body {
+				font-family: 'Inter', sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+		<h1>Magical Fractals! Milestone</h1>
+		<div style="text-align: center;">Names: Jay Chou, Abigail Brooks-Ramirez, Rahul Vijay, Sophie Xie</div>
+		
+		<br>
+
+		Link to webpage: <a href="https://sophie200.github.io/184-proj-prop/pages/checkpoint.html">sophie200.github.io/184-proj-prop/pages/checkpoint.html</a>
+
+		<br>
+		<br>
+
+		Link to slides: <a href="https://docs.google.com/presentation/d/1VFfzvWOZD6_1FXqe5vBp-GjAad8s0hC4AM9a-DyUSK8/edit?usp=sharing">Milestone Slides</a>
+
+		<br>
+
+		<h2>Changes Since Proposal</h2>
+		After receiving feedback on our project proposal, we decided to focus on generating only 3D fractals, instead of mostly 2D fractals (since as our feedback pointed out that raymarching is only used for 3D fractals). We still plan to generate iterative fractals and escape-time fractals in 3D, but we are no longer making Clifford attractors, since they only exist in 2D. We are also no longer making a web app to allow users to interactively change the fractal. Instead, we will automatically change certain parameters of our fractals over time, giving them a shifting and mutating appearance, which will also help with completing our reach goal. Our reach goal, as described in the original proposal, is to recreate the Anomaly from the animated show Arcane, which we believe is inspired by fractals.
+		
+		<h2>What we have accomplished & Preliminary results</h2>
+		Over the past two weeks, we have successfully implemented the following components of our project. 
+		<ul>
+			<li>
+				<b>Ray Marcher: </b> We forked a repository that had a ray marcher implemented in C++ and began to modify the existing code to support fractals. For "Window" mode, we modified the GLSL renderer such that it can render multiple scenes one after another without closing the window. For "Image" mode, we modified the code such that it saves different scenes as different files to avoid overwriting the same file. We also fixed some rendering issues on MacOS displays where only a quarter of the screen is poppulated.
+			</li>
+			<br>
+			<li>
+				<b>Menger Sponge: </b> The Menger Sponge is a 3D iterative fractal consisting of iterated cubes. The raymarcher repo we forked already contained the Menger Sponge as a sample object. We studied the SDF of the Menger Sponge so that we could understand how to make SDFs of more complex fractals in the future. The Menger Sponge also allowed us to test whether our modifications of the raymarcher repo caused errors.
+			
+
+				<div style="display: flex; flex-direction: column; align-items: center;">
+					<table style="width: 100%; text-align: center; border-collapse: collapse;">
+					<tr>
+						<td style="text-align: center;">
+							<img src="../images/menger_10.png" height="400px"/>
+							<figcaption>Menger: 10 iterations</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="../images/menger_5.png" height="400px"/>
+							<figcaption>Menger: 5 iterations</figcaption>
+						</td>
+						<td style="text-align: center;">
+							<img src="../images/menger_2.png" height="400px"/>
+							<figcaption>Menger: 2 iterations</figcaption>
+						</td>
+					</tr>
+					</table>
+				</div>
+			</li>
+			<br>
+			<li>
+			<b>Mandelbulb:</b> We added a custom object type Mandelbulb and allowed it to be added to the scene in config.yaml. We wrote the sdf function of Mandelbulb based on its mathematical definition and allowed the power attribute to be variable for each scene. We changed the outer caller function such that it increments the power attribute after each render to create a dynamic effect. We implemented a red-blue shading scheme that uses the distance from the origin (red if closer to origin and blue if farther).
+
+			<p>Below are a few images of mandelbulbs we have generated. Each is slightly different because we alter the exponent (power) in the SDF.</p>
+			<div style="display: flex; flex-direction: column; align-items: center;">
+				<table style="width: 100%; text-align: center; border-collapse: collapse;">
+				<tr>
+					<td style="text-align: center;">
+						<img src="../images/mandelbulb1.png" height="400px"/>
+						<figcaption>Mandelbulb 1</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="../images/mandelbulb2.png" height="400px"/>
+						<figcaption>Mandelbulb 2</figcaption>
+					</td>
+					<td style="text-align: center;">
+						<img src="../images/mandelbulb3.png" height="400px"/>
+						<figcaption>Mandelbulb 3</figcaption>
+					</td>
+				</tr>
+				</table>
+			</div>
+		</ul>
+		
+		<h2>Future Work and Timeline: </h2>
+		<p>We are currently on track given our original timeline that we submitted in the proposal. Our next steps are to add additional levels of customization to the fractals and work towards our reach goal.</p>
+		<ol>
+			<li>We plan to add additional inputs to each fractal, such as power and angle, so that we can get different views of the fractal</li>
+			<li>We are currently working on rotating the camera angle and view direction so that we can rotate around the fractal and capture images of it to create a more comprehensive 3D image</li>
+		</ol>
+		<p>Our reach goal is to recreate the "anomaly" feature from the Netflix show Arcane. We currently have 3D fractals implemented in our current code. We believe that the anomaly is created using a 3D version of the Apollonian Gasket fractal. In order to properly implement this goal, we have the following tasks: </p>
+		<ol>
+			<li>Implement the Apollonian Gasket fractal as a 3D fractal. This requires us to create a new object for the scene (the Apollonian Gasket) and include a signed distance function for the object so that our ray marcher can estimate the distance to various points in the fractal.</li>
+			<li>Implement a custom color scheme that is similar to the coloring in Arcane. We currently have one custom color scheme implemented (which uses pink and purple colors) so we will iterate upon this to make it similar to the arcane shading.</li>
+			<li>Implement potential randomization and fluctuations of the fractal at certain time steps. In Arcane, the anomaly shifts and mutates randomly, so it would be interesting to try to replicate this behavior.</li>
+		</ol>
+	</body>
+</html>
