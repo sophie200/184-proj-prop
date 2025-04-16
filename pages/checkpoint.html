@@ -54,51 +54,30 @@
 			<br>
 			<li>
 				<b>Menger Sponge: </b> The Menger Sponge is a 3D iterative fractal consisting of iterated cubes. The raymarcher repo we forked already contained the Menger Sponge as a sample object. We studied the SDF of the Menger Sponge so that we could understand how to make SDFs of more complex fractals in the future. The Menger Sponge also allowed us to test whether our modifications of the raymarcher repo caused errors.
-			
-
-				<div style="display: flex; flex-direction: column; align-items: center;">
-					<table style="width: 100%; text-align: center; border-collapse: collapse;">
-					<tr>
-						<td style="text-align: center;">
-							<img src="../images/menger_10.png" height="400px"/>
-							<figcaption>Menger: 10 iterations</figcaption>
-						</td>
-						<td style="text-align: center;">
-							<img src="../images/menger_5.png" height="400px"/>
-							<figcaption>Menger: 5 iterations</figcaption>
-						</td>
-						<td style="text-align: center;">
-							<img src="../images/menger_2.png" height="400px"/>
-							<figcaption>Menger: 2 iterations</figcaption>
-						</td>
-					</tr>
-					</table>
-				</div>
 			</li>
 			<br>
 			<li>
 			<b>Mandelbulb:</b> We added a custom object type Mandelbulb and allowed it to be added to the scene in config.yaml. We wrote the sdf function of Mandelbulb based on its mathematical definition and allowed the power attribute to be variable for each scene. We changed the outer caller function such that it increments the power attribute after each render to create a dynamic effect. We implemented a red-blue shading scheme that uses the distance from the origin (red if closer to origin and blue if farther).
-
-			<p>Below are a few images of mandelbulbs we have generated. Each is slightly different because we alter the exponent (power) in the SDF.</p>
-			<div style="display: flex; flex-direction: column; align-items: center;">
-				<table style="width: 100%; text-align: center; border-collapse: collapse;">
-				<tr>
-					<td style="text-align: center;">
-						<img src="../images/mandelbulb1.png" height="400px"/>
-						<figcaption>Mandelbulb 1</figcaption>
-					</td>
-					<td style="text-align: center;">
-						<img src="../images/mandelbulb2.png" height="400px"/>
-						<figcaption>Mandelbulb 2</figcaption>
-					</td>
-					<td style="text-align: center;">
-						<img src="../images/mandelbulb3.png" height="400px"/>
-						<figcaption>Mandelbulb 3</figcaption>
-					</td>
-				</tr>
-				</table>
-			</div>
 		</ul>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+				<td style="text-align: center;">
+					<img src="../images/menger_10.png" height="300px"/>
+					<figcaption>Menger Sponge (with 10 iterations)</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="../images/mandelbulb1.png" height="300px"/>
+					<figcaption>Mandelbulb 1 (varying power attribute)</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="../images/mandelbulb2.png" height="300px"/>
+					<figcaption>Mandelbulb 2 (varying power attribute)</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
 		
 		<h2>Future Work and Timeline: </h2>
 		<p>We are currently on track given our original timeline that we submitted in the proposal. Our next steps are to add additional levels of customization to the fractals and work towards our reach goal.</p>
