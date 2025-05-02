@@ -38,9 +38,9 @@
 		<br>
 		<h2>Abstract</h2>
 		  <p>
-			Our project showcases magical 3D fractals inspired by the visual styles of <a href="https://preview.redd.it/what-do-you-think-inspired-the-look-of-the-arcane-v0-z8812tlpuy7e1.jpg?width=640&crop=smart&auto=webp&s=422975119ee15451ca06f386d0a3523cccefd6b9"><em>Arcane</em></a> and <em>Into the Spiderverse</em>.
-			We render three types of fractals: the <strong>Menger sponge</strong>, the <strong>Mandelbulb</strong>, and a custom creation we call <strong>the Anomaly</strong> —
-			a 3D fractal based on Apollonian sphere packing.
+			Our project showcases magical 3D fractals inspired by the visual styles of <a href="https://preview.redd.it/what-do-you-think-inspired-the-look-of-the-arcane-v0-z8812tlpuy7e1.jpg?width=640&crop=smart&auto=webp&s=422975119ee15451ca06f386d0a3523cccefd6b9"><em>Arcane</em></a> and <a href="https://www.hollywoodreporter.com/wp-content/uploads/2024/01/SV2_gcg0337.1061_4K_lm_v1-H-2024.jpg?w=1296&h=730&crop=1"><em>Into the Spiderverse</em></a>.
+			We render three types of fractals: the <a href="https://i1.wp.com/blog.zacharyabel.com/wp-content/uploads/2012/02/Menger-stages-big.png"><strong>Menger sponge</strong></a>, the <a href="https://i.ytimg.com/vi/Wz4uv9GcX4U/hqdefault.jpg"><strong>Mandelbulb</strong></a>, and a custom creation we call <strong>the Anomaly</strong> —
+			a 3D fractal based on <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3ByH8CXgYfRggh04cYpD2aoWTFZilLcR7EQ&s">Apollonian sphere packing</a> and Arcane's own <a href="https://preview.redd.it/what-do-you-think-inspired-the-look-of-the-arcane-v0-z8812tlpuy7e1.jpg?width=640&crop=smart&auto=webp&s=422975119ee15451ca06f386d0a3523cccefd6b9"><em>Anomoly</em></a>
 		  </p>
 		
 		  <p>
@@ -64,14 +64,102 @@
 		  <p>
 			The result is a collection of visually striking, animated-like 3D fractals that blend mathematical elegance with artistic imagination.
 		  </p>
+
 		<h2>Technical Approach</h2>
+
 		<h4>Raymarcher</h4>
-		In order to render 3D fractals, we need to have a raymarcher that takes in a distance-estimating function (SDF) of the scene we want to render and generate the scene accordingly. Luckily, we found a <a href="https://github.com/Balajanovski/simple-raymarcher">fully-functional C++ implementation by Balajanovski</a>. The Repo includes the SDF of multiple simple artifacts like boxes, spheres, planes, and one 3D fractal called Menger. It has the functionality to read from a yaml file specifying the camera position and artifacts and render with . We extended the functionality by 
+		<p>In order to render 3D fractals, we need to have a raymarcher that takes in a distance-estimating function (SDF) of the scene we want to render and generate the scene accordingly. Luckily, we found a <a href="https://github.com/Balajanovski/simple-raymarcher">fully-functional C++ implementation by Balajanovski</a>. The Repo includes the SDF of multiple simple artifacts like boxes, spheres, planes, and one 3D fractal called Menger. It has the functionality to read from a yaml file specifying the camera position and artifacts and render with Blinn-Phong shading. We extended the functionality by allowing multiple renders back-to-back, altering the camera position in each render so we can see the 3D fractals from different positions. We added support for different fractal types: Mandelbulb and our custom fractal Anomaly (inspired by Apollonian sphere packing). We also added support for 2 types of color schemes: Red Blue and Turbo.</p>
+		
+		<p>To have the raymarcher show scenes from different positions, we had the camera position's z-coordinate follow a sine wave (alternating between moving forward and backward), as shown in our code below. In each iteration, the ray marcher calculates a new camera position based on the current t value, generates a frame based on the camera position and shows it (either on the screen or to a file based on our renderer mode). The choice of using a sine wave is due to the need to put together a demo video that can be played on a loop. We also considered using fancier functions like back-to-back cubic Bezier curves (much like CSS cubic-bezier animations), but we wanted to focus on actual fractal generations and decided that a sine curve is functionally what we want.</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+				<td style="text-align: center;">
+					<img src="../images/final_camera_code.png" height="300px"/>
+					<figcaption>Menger Sponge (with 10 iterations)</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
 
-(
-		<h4>Raymarcher</h4>Anomaly (inspired by Apollonian sphere packing)
 
-		<h4>Mandelbulb</h4>Anomaly (inspired by Apollonian sphere packing)
+		<h4>Menger</h4>
+		<p>The Menger sponge is a fractal constructed by repeatedly removing the central third of a cube along all three axes from the remaining pieces. The SDF for a Menger sponge is calculated by mimicking this iterative removal process.</p>
+		<p>For a given point in 3D space, the SDF algorithm iteratively transforms the point's coordinates to effectively zoom into the corresponding location within the fractal at increasing levels of detail. In each iteration, the point's coordinates are scaled and mapped back to a normalized range [-1, 1]. This transformed point is then analyzed to determine if it falls within one of the regions that are being removed at that iteration.</p>
+		<p>To reiterate what we said in the Raymarcher section, the menger code already existed in the <a href="https://github.com/Balajanovski/simple-raymarcher">simple-raymarcher repo</a>.</p> With our added color scheme (described below) and camera viewing (describe above), we get a really cool and engaging 3D Menger Sponge (shown below as well).
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+				<td style="text-align: center;">
+					<img src="../images/menger_code.png" height="300px"/>
+					<figcaption>Menger Sponge's SDF code</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
+		
+		<h4>Mandelbulb</h4>
+		<p>The Mandelbulb is a 3D fractal defined by iterating a non-linear function on points in 3D space and observing their behavior. Its SDF is calculated using an escape-time algorithm, tracking how a point transforms over repeated applications of this function.</p>
+		<p>For a given point in 3D space, the SDF algorithm iteratively applies the Mandelbulb function. This function involves converting the point to spherical coordinates, increasing the magnitude and multiplying the angles by a specific power, converting the point back to Cartesian coordinates, and finally adding the original test point.</p>
+		<p>The algorithm repeats this transformation for a number of iterations or until the magnitude of the point exceeds the escape threshold of 2, at which point it is considered to be outside the Mandelbulb set.</p>
+		<p>Our algorithm references the Java code.</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+				<td style="text-align: center;">
+					<img src="../images/mandelbulb_code.png" height="300px"/>
+					<figcaption>Mandelbulb's SDF code</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
+		
+		<h4>Anomaly (inspired by Apollonian sphere packing)</h4>
+		<p>The Anomaly is a 3D fractal inspired by <a href="https://paulbourke.net/fractals/apollony/?fbclid=IwZXh0bgNhZW0CMTEAAR4RrJe1IBrPEqO0hp0iwhdFIm1At2WEotwSVy3OdLx9K9eb3iAi5x3Y-ih48g_aem_N2--R8sgZtWXZvK0YOnzSg">Apollonian sphere packing</a>, which uses sphere inversion, absolute value reflection, and scaling to continuously pack spheres into an outermost sphere. At each iteration, the point is inverted through a unit sphere, mirrored into the positive octant, and sorted so its coordinates are in descending order. The point is then scaled and shifted, amplifying the fractal detail at each step. This process is repeated for a fixed number of iterations or until the point nears the fractal’s singularity (too close to the origin, since that leads to numerical instability and division by zero). The result is a surreal, symmetric structure with infinite self-similarity and sharp edges - just like the Anomaly scene in Arcane!</p>
+
+		<p>We experimented with different number of iterations and found out that 6 is the sweet spot that produces the most visually impressive effect.</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+				<td style="text-align: center;">
+					<img src="../images/anomoly_code.png" height="300px"/>
+					<figcaption>Anomoly's SDF code</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
+		
 
 		<h4>Color</h4>
-		We implemented two color schemes for our fractals. Both color schemes map colors based on the distance of the fractal to the camera. One of our color schemes maps the distance to a colormap of red and blue colors, which results in different shades of purple. Our other scheme is inspired by <a href="https://research.google/blog/turbo-an-improved-rainbow-colormap-for-visualization/">Google's Turbo</a> color mapping, where we use Google's provided color map to assign color based on distance. The turbo scheme results in colors from the entire rainbow spectrum (red to purple).
+		We implemented two color schemes for our fractals. Both color schemes map colors based on the distance of the fractal to the camera. One of our color schemes maps the distance to a colormap of red and blue colors, which results in different shades of purple. Our other scheme is inspired by <a href="https://research.google/blog/turbo-an-improved-rainbow-colormap-for-visualization/">Google's Turbo</a> color mapping, where we use Google's provided color map to assign color based on distance. The turbo scheme results in colors from the entire rainbow spectrum (purple).
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+				<td style="text-align: center;">
+					<img src = "../images/turbo.png" height = "100px"/>
+					<figcaption>Turbo color mapping (distance scaled from 0.0 to 1.0)</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
+
+		<h4>Problems we faced</h4>
+		<p>One of the main problems we faced was with our camera position and its positioning in the raymarcher. At first our camera position was moving to the right so when viewing our fractals our camera would go "off-screen" and we wouldn't be able to see the fractal anymore. To solve this, we made our camera have a fixed position relative to the x-axis and then changed our camera position relative to the z-axis (as mentioned above in the raymarcher section). Since we are producing fractals this change also lensed itself to really cool exploration of these fractals visually.</p>
+		<h4>Lessons Learned</h4>
+		<p></p>
+
+		<h4>Results</h4>
+		We ultimately created three fractals for this project, and we've provided the animation below. To show the fractal, our camera moves in closer, showcasing the repetition of patterns that is common for fractals, and then moves outwards again. We further showcase the fractals in the two color schemes we implemented.
+
+		<h2>Resources</h2>
+		<p><a href="https://github.com/Balajanovski/simple-raymarcher">simple-raymarcher</a></p>
+		<p><a href="https://iquilezles.org/articles/distfunctions/">Distance Functions</a></p>
+		<p><a href="https://www.youtube.com/watch?app=desktop&v=svLzmFuSBhk&t=0s&ab_channel=CodeParade">How to Make 3D Fractals</a></p>
+		<p><a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/?fbclid=IwZXh0bgNhZW0CMTEAAR4VlmI5cwK8BAGgYvTMxUJDK0c_WslnQdkq77KLPzorILQnLn6pWK_fuYrWsg_aem_g1kQ_Flag2MBVNhOu8nW0w">Distance Estimated 3D Fractals</a></p>
+		<p><a href="https://cglearn.eu/pub/advanced-computer-graphics/fractal-rendering">Fractal Rendering</a></p>
+		<p><a href="https://research.google/blog/turbo-an-improved-rainbow-colormap-for-visualization/">Turbo Color Map</a></p>
+
+
+	</body>
+</html>
