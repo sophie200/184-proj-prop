@@ -36,6 +36,42 @@
 		Link to webpage: <a href="https://sophie200.github.io/184-proj-prop/pages/final.html">sophie200.github.io/184-proj-prop/pages/final.html</a>
 
 		<br>
+		<h2>Abstract</h2>
+		  <p>
+			Our project showcases magical 3D fractals inspired by the visual styles of <a href="https://preview.redd.it/what-do-you-think-inspired-the-look-of-the-arcane-v0-z8812tlpuy7e1.jpg?width=640&crop=smart&auto=webp&s=422975119ee15451ca06f386d0a3523cccefd6b9"><em>Arcane</em></a> and <em>Into the Spiderverse</em>.
+			We render three types of fractals: the <strong>Menger sponge</strong>, the <strong>Mandelbulb</strong>, and a custom creation we call <strong>the Anomaly</strong> —
+			a 3D fractal based on Apollonian sphere packing.
+		  </p>
+		
+		  <p>
+			We use <strong>ray marching</strong> to generate these fractals, an efficient variant of ray tracing well-suited for procedural geometry.
+			The shapes of our fractals are modeled using <strong>Signed Distance Functions (SDFs)</strong> —
+			mathematical functions that return the distance from any point in space to the surface of a shape.
+			In our case, these surfaces define the complex geometries of our fractals.
+		  </p>
+		
+		  <p>
+			Starting with a <a href="https://github.com/Balajanovski/simple-raymarcher">basic raymarcher</a>, we extended the renderer to support our own fractals by designing custom SDFs and scene objects.
+			We also implemented configurable parameters, allowing users to customize the fractals with:
+		  </p>
+		
+		  <ul>
+			<li>Choice of color mapping (e.g., red-blue or turbo)</li>
+			<li>Adjustable power for the Mandelbulb</li>
+			<li>Dynamic camera controls that let viewers zoom inward and outward through the fractal space</li>
+		  </ul>
+		
+		  <p>
+			The result is a collection of visually striking, animated-like 3D fractals that blend mathematical elegance with artistic imagination.
+		  </p>
+		<h2>Technical Approach</h2>
+		<h4>Raymarcher</h4>
+		In order to render 3D fractals, we need to have a raymarcher that takes in a distance-estimating function (SDF) of the scene we want to render and generate the scene accordingly. Luckily, we found a <a href="https://github.com/Balajanovski/simple-raymarcher">fully-functional C++ implementation by Balajanovski</a>. The Repo includes the SDF of multiple simple artifacts like boxes, spheres, planes, and one 3D fractal called Menger. It has the functionality to read from a yaml file specifying the camera position and artifacts and render with . We extended the functionality by 
 
-	</body>
-</html>
+(
+		<h4>Raymarcher</h4>Anomaly (inspired by Apollonian sphere packing)
+
+		<h4>Mandelbulb</h4>Anomaly (inspired by Apollonian sphere packing)
+
+		<h4>Color</h4>
+		We implemented two color schemes for our fractals. Both color schemes map colors based on the distance of the fractal to the camera. One of our color schemes maps the distance to a colormap of red and blue colors, which results in different shades of purple. Our other scheme is inspired by <a href="https://research.google/blog/turbo-an-improved-rainbow-colormap-for-visualization/">Google's Turbo</a> color mapping, where we use Google's provided color map to assign color based on distance. The turbo scheme results in colors from the entire rainbow spectrum (red to purple).
