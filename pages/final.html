@@ -34,7 +34,10 @@
 		<br>
 
 		Link to webpage: <a href="https://sophie200.github.io/184-proj-prop/pages/final.html">sophie200.github.io/184-proj-prop/pages/final.html</a>
-
+		<br>
+		Link to slides used in video: <a href="https://docs.google.com/presentation/d/1Y85KK8p95oKUJIZNC0uE-Of83KxRcBO7cT2sKZqFPeU/edit?usp=sharing">Slides</a>
+		<br>
+		Link to video: <a href="https://drive.google.com/file/d/1Q4jtoCu763U6A3TSx7qhMmwIXsZ3GLrA/view?usp=sharing">Video</a>
 		<br>
 		<h2>Abstract</h2>
 		  <p>
@@ -44,13 +47,10 @@
 		  </p>
 		
 		  <p>
-			We use <strong>ray marching</strong> to generate these fractals, an efficient variant of ray tracing well-suited for procedural geometry.
-			The shapes of our fractals are modeled using <strong>Signed Distance Functions (SDFs)</strong> —
-			mathematical functions that return the distance from any point in space to the surface of a shape.
-			In our case, these surfaces define the complex geometries of our fractals.
-		  </p>
-		
-		  <p>
+			We use <strong>ray marching</strong> to generate these fractals, an efficient variant of ray tracing well-suited for procedural geometry. Ray tracing casts rays into a scene and calculates intersections with geometric surfaces in the scene (such as triangles and spheres as seen in HW3). In HW3, we used a BVH structure to organize the geometric surfaces in the scene in order to more efficiently check for intersections. However, fractals are very complex shapes which can at times be difficult to model through a mesh, and it’s simpler to represent them using mathematical functions.		
+
+		  <p>Given this constraint, we chose to use ray marching, which casts a ray into the scene using a distance function and "marches" along the ray until it intersects with an object. We model our fractals using <strong>Signed Distance Functions (SDFs)</strong> — mathematical functions that return the distance from any point in space to the surface of a shape.</p>
+		  <p> In our case, these surfaces define the complex geometries of our fractals and the intersections found by the ray marcher allow us to render our fractal.</p>  <p>
 			Starting with a <a href="https://github.com/Balajanovski/simple-raymarcher">basic raymarcher</a>, we extended the renderer to support our own fractals by designing custom SDFs and scene objects.
 			We also implemented configurable parameters, allowing users to customize the fractals with:
 		  </p>
@@ -86,7 +86,8 @@
 		<h4>Menger</h4>
 		<p>The Menger sponge is a fractal constructed by repeatedly removing the central third of a cube along all three axes from the remaining pieces. The SDF for a Menger sponge is calculated by mimicking this iterative removal process.</p>
 		<p>For a given point in 3D space, the SDF algorithm iteratively transforms the point's coordinates to effectively zoom into the corresponding location within the fractal at increasing levels of detail. In each iteration, the point's coordinates are scaled and mapped back to a normalized range [-1, 1]. This transformed point is then analyzed to determine if it falls within one of the regions that are being removed at that iteration.</p>
-		<p>To reiterate what we said in the Raymarcher section, the menger code already existed in the <a href="https://github.com/Balajanovski/simple-raymarcher">simple-raymarcher repo</a>.</p> With our added color scheme (described below) and camera viewing (describe above), we get a really cool and engaging 3D Menger Sponge (shown below as well).
+		<p>A distance value is calculated based on the point's position relative to these removable regions. The algorithm tracks the maximum signed distance found across all iterations. This is because if a point is in a removed region, the iterative process will yield increasing distances relative to the solid surface. If the point is outside the fractal, the initial bounding shape's distance provides a starting point, which is then refined by considering the indentations created by the fractal structure. The final signed distance represents the shortest distance to the solid geometry of the Menger sponge.</p>
+		<p>To reiterate what we said in the Raymarcher section, the menger code already existed in the <a href="https://github.com/Balajanovski/simple-raymarcher">simple-raymarcher repo</a>. With our added color scheme (described below) and camera viewing feature (described above), we get a really cool and engaging 3D Menger Sponge (shown below as well).
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			<tr>
@@ -101,8 +102,10 @@
 		<h4>Mandelbulb</h4>
 		<p>The Mandelbulb is a 3D fractal defined by iterating a non-linear function on points in 3D space and observing their behavior. Its SDF is calculated using an escape-time algorithm, tracking how a point transforms over repeated applications of this function.</p>
 		<p>For a given point in 3D space, the SDF algorithm iteratively applies the Mandelbulb function. This function involves converting the point to spherical coordinates, increasing the magnitude and multiplying the angles by a specific power, converting the point back to Cartesian coordinates, and finally adding the original test point.</p>
-		<p>The algorithm repeats this transformation for a number of iterations or until the magnitude of the point exceeds the escape threshold of 2, at which point it is considered to be outside the Mandelbulb set.</p>
-		<p>Our algorithm references the Java code.</p>
+		<p>The algorithm repeats this transformation for a number of iterations or until the magnitude of the point exceeds the escape threshold of 2, at which point it is considered to be outside the Mandelbulb set.
+		</p>
+		<p>The signed distance to the surface is estimated based on how quickly the point escapes; a faster escape (fewer iterations to exceed the threshold, or a larger final magnitude upon escaping) indicates that the point is further away from the fractal surface.</p>
+		<p>Our algorithm references the Java repo <a href="https://github.com/AntonioFerreras/FractalRayMarcher?tab=readme-ov-file&fbclid=IwZXh0bgNhZW0CMTEAAR53DfXVDoFMtiQ7oQfXKDCD1qhk6sVPctiHN4rpvyFG-4muPHdUOXDVm83GnA_aem_33l-1vw9CZZNa2uu8fVUCg">FractalRayMarcher</a>'s Mandelbulb algorithm.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			<tr>
@@ -115,7 +118,8 @@
 		</div>
 		
 		<h4>Anomaly (inspired by Apollonian sphere packing)</h4>
-		<p>The Anomaly is a 3D fractal inspired by <a href="https://paulbourke.net/fractals/apollony/?fbclid=IwZXh0bgNhZW0CMTEAAR4RrJe1IBrPEqO0hp0iwhdFIm1At2WEotwSVy3OdLx9K9eb3iAi5x3Y-ih48g_aem_N2--R8sgZtWXZvK0YOnzSg">Apollonian sphere packing</a>, which uses sphere inversion, absolute value reflection, and scaling to continuously pack spheres into an outermost sphere. At each iteration, the point is inverted through a unit sphere, mirrored into the positive octant, and sorted so its coordinates are in descending order. The point is then scaled and shifted, amplifying the fractal detail at each step. This process is repeated for a fixed number of iterations or until the point nears the fractal’s singularity (too close to the origin, since that leads to numerical instability and division by zero). The result is a surreal, symmetric structure with infinite self-similarity and sharp edges - just like the Anomaly scene in Arcane!</p>
+		<p>The Anomaly is a 3D fractal inspired by <a href="https://paulbourke.net/fractals/apollony/?fbclid=IwZXh0bgNhZW0CMTEAAR4RrJe1IBrPEqO0hp0iwhdFIm1At2WEotwSVy3OdLx9K9eb3iAi5x3Y-ih48g_aem_N2--R8sgZtWXZvK0YOnzSg">Apollonian sphere packing</a>, which uses sphere inversion, absolute value reflection, and scaling to continuously pack spheres into an outermost sphere. At each iteration, the point is inverted through a unit sphere, mirrored into the positive octant, and sorted so its coordinates are in descending order. The point is then scaled and shifted, amplifying the fractal detail at each step. <p>This process is repeated for a fixed number of iterations or until the point nears the fractal’s singularity (too close to the origin, since that leads to numerical instability and division by zero).</p>
+		<p>The result is a surreal, symmetric structure with infinite self-similarity and sharp edges - just like the Anomaly scene in Arcane!</p>
 
 		<p>We experimented with different number of iterations and found out that 6 is the sweet spot that produces the most visually impressive effect.</p>
 
@@ -145,12 +149,64 @@
 		</div>
 
 		<h4>Problems we faced</h4>
-		<p>One of the main problems we faced was with our camera position and its positioning in the raymarcher. At first our camera position was moving to the right so when viewing our fractals our camera would go "off-screen" and we wouldn't be able to see the fractal anymore. To solve this, we made our camera have a fixed position relative to the x-axis and then changed our camera position relative to the z-axis (as mentioned above in the raymarcher section). Since we are producing fractals this change also lensed itself to really cool exploration of these fractals visually.</p>
+		<p>One of the main challenges we encountered was managing the camera's position within the raymarcher. Initially, our camera drifted to the right, causing it to move off-center and eventually "lose sight" of the fractal entirely. To resolve this, we constrained the camera to maintain a fixed position along the x-axis and instead allowed movement along the z-axis (as described earlier in the raymarching section). This adjustment not only stabilized the camera but also enabled more engaging visual exploration of the fractals by allowing us to dive into and out of them.</p>
+
+		<p>We also ran into a visibility issue specifically with our Anomaly fractal. For a while, it seemed like the fractal wasn’t rendering at all—until we realized that the camera’s depth (z-axis) was misaligned with the fractal’s position. We resolved this by carefully experimenting with the z-position until we found the exact range where the fractal became visible.</p>
+
+		<p>Lastly, we experienced an unexpected problem with our red-blue color scheme, where green hues would sometimes appear in the rendered output. This was due to a function in the original raymarcher repository called <code>clamp_with_desaturation</code>, which returns an RGB color of (1, 1, 1) when the input is oversaturated. Since we increased the brightness of our pixel colors by scaling them by a factor of 10, this caused <code>clamp_with_desaturation</code> to introduce unwanted green tones. As the function was not necessary for our purposes, we removed it to preserve our intended color palette.</p>
+
+
 		<h4>Lessons Learned</h4>
-		<p></p>
+		<p>One of the key lessons we learned was how to adapt existing algorithms and frameworks to better suit our creative vision. For instance, based on feedback from our milestone, we aimed to implement color mapping using Google's <a href="https://research.google/blog/turbo-an-improved-rainbow-colormap-for-visualization/">Turbo</a> colormap. Initially, we applied the Turbo scheme as described—mapping color based on the object's distance from the camera, where closer objects appear red and farther ones appear blue. However, because our camera dynamically moves into and out of the fractals, this method caused the colors to shift inconsistently during navigation, resulting in a disorienting experience. To address this, we modified the approach to base color on each object's distance from the origin instead, producing a more stable and aesthetically pleasing result.</p>
+
+		<p>Another lesson we learned was how to change course from what we initially planned to do to allow for a more visually appealing result. As mentioned above, while we initially wanted to use a rotating camera to showcase fractals, we found that allowing the camera to move directly inward and outward through the fractal created a more immersive and imaginative viewing experience. We also increased the brightness of each pixel by a factor of 10 to make the fractals appear more vivid and visually striking.</p>
 
 		<h4>Results</h4>
-		We ultimately created three fractals for this project, and we've provided the animation below. To show the fractal, our camera moves in closer, showcasing the repetition of patterns that is common for fractals, and then moves outwards again. We further showcase the fractals in the two color schemes we implemented.
+		<p>We ultimately created three fractals for this project, and we've provided the animation below. To show the fractal, our camera moves in closer, showcasing the repetition of patterns that is common for fractals, and then moves outwards again. We further showcase the fractals in the two color schemes we implemented. We also show animations of the Mandelbulb changing power incrementally while the camera remains fixed.</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+				<td style="text-align: center;">
+					<img src = "../images/menger-sponge-turbo.gif" height = "300px"/>
+					<figcaption>Menger (Turbo)</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src = "../images/menger-blue-red.gif" height = "300px"/>
+					<figcaption>Menger (Blue-Red)</figcaption>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: center;">
+					<img src = "../images/mandelbulb-turbo.gif" height = "300px"/>
+					<figcaption>Mandelbulb (Turbo)</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src = "../images/mandelbulb-blue-red.gif" height = "300px"/>
+					<figcaption>Mandelbulb (Blue-Red)</figcaption>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: center;">
+					<img src = "../images/mandelbulb-turbo-changing-power.gif" height = "300px"/>
+					<figcaption>Mandelbulb Changing Powers (Turbo)</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src = "../images/mandelbulb-blue-red-changing-power.gif" height = "300px"/>
+					<figcaption>Mandelbulb Changing Powers (Blue-Red)</figcaption>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: center;">
+					<img src = "../images/anomaly-turbo.gif" height = "300px"/>
+					<figcaption>Anomoly (Turbo)</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src = "../images/anomaly-blue-red.gif" height = "300px"/>
+					<figcaption>Anomoly (Blue-Red)</figcaption>
+				</td>
+			</tr>
+			</table>
+		</div>
 
 		<h2>Resources</h2>
 		<p><a href="https://github.com/Balajanovski/simple-raymarcher">simple-raymarcher</a></p>
@@ -159,6 +215,14 @@
 		<p><a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/?fbclid=IwZXh0bgNhZW0CMTEAAR4VlmI5cwK8BAGgYvTMxUJDK0c_WslnQdkq77KLPzorILQnLn6pWK_fuYrWsg_aem_g1kQ_Flag2MBVNhOu8nW0w">Distance Estimated 3D Fractals</a></p>
 		<p><a href="https://cglearn.eu/pub/advanced-computer-graphics/fractal-rendering">Fractal Rendering</a></p>
 		<p><a href="https://research.google/blog/turbo-an-improved-rainbow-colormap-for-visualization/">Turbo Color Map</a></p>
+		<p><a href="https://paulbourke.net/fractals/apollony/?fbclid=IwZXh0bgNhZW0CMTEAAR4RrJe1IBrPEqO0hp0iwhdFIm1At2WEotwSVy3OdLx9K9eb3iAi5x3Y-ih48g_aem_N2--R8sgZtWXZvK0YOnzSg">Apollonian sphere packing</a></p>
+
+		<h4>Contributions</h4>
+		<h5>Abby:</h5> <p>Implemented Turbo color scheme, color specification option for fractals through config.yml, and (attempted) assist with Anomaly SDF. Assisted with slides, webpage writeup, and presentation.</p>
+		<h5>Jay:</h5><p>Implemented camera movement and continuous scene generation for both File and Window modes, tested Menger with different color schemes, helped implement Mandelbulb, tuned parameters for Mandelbulb and Anomaly. Assisted with slides & webpage.</p>
+		<h5>Rahul:</h5><p>Implemented blue-red color scheme, and defined anomaly SDF. Helped with website and slides. Helped with finetuning parameters to get better quality images for slides/video.</p>
+		<h5>Sophie:</h5><p>Helped implement the power and increment feature for Mandelbulb, helped implement Anomoly, helped with webpage, slides, presentation, and video.</p>
+
 
 
 	</body>
